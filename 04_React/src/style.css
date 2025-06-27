@@ -1,0 +1,17 @@
+@import 'tailwindcss';
+
+.container {
+  @apply h-screen bg-blue-950 flex flex-col justify-center items-center;
+}
+
+.button {
+  @apply bg-amber-50 text-black px-8 py-2  rounded-2xl text-5xl hover:cursor-pointer active:scale-90;
+}
+
+.counter {
+  @apply mx-12 text-center text-white text-5xl;
+}
+
+.reset-bttn {
+  @apply my-8 text-4xl;
+}
