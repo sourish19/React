@@ -1,5 +1,8 @@
 import { useState } from 'react';
 
+// This useState is called a hook
+// Here this Button is called a React Component
+
 const Button = () => {
   let [count, setCounter] = useState(0);
 
@@ -52,3 +55,6 @@ const App = () => {
 };
 
 export default App;
+
+// We cannot use useState hook globally - it is always local to the component, we can create a Parent element & then we can pass it as a prop
+// In React manual DOM manupulation is not needed - React handles it behind the scene by using VirtualDOM
