@@ -1,1 +1,37 @@
 @import "tailwindcss";
+
+.body-container {
+  @apply h-screen;
+}
+
+.main-container {
+  @apply flex flex-col items-center pt-10 h-screen bg-gray-950;
+}
+
+.todo-heading {
+  @apply text-white text-3xl font-semibold;
+}
+
+.todo-main-container {
+  @apply flex flex-col w-6/12;
+}
+
+.input-button-container {
+  @apply mt-10 flex justify-center;
+}
+
+.todo-input {
+  @apply text-black bg-white w-80 px-4 py-2 rounded-l-2xl focus:outline-none;
+}
+
+.todo-add-button {
+  @apply bg-white text-black px-4 rounded-r-2xl cursor-pointer;
+}
+
+.todo-item {
+  @apply flex justify-between bg-blue-500 p-5 rounded-2xl text-xl font-semibold text-white;
+}
+
+.todo-items-container {
+  @apply flex flex-col gap-3.5 bg-amber-50 mt-10 w-[100%] p-3 border-amber-50 rounded-2xl overflow-auto;
+}
