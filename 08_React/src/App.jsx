@@ -1,12 +1,14 @@
 import { useState } from "react";
-import Todo from "./components/Todo";
+import Todo from "./components/Todos";
 
 const Input = () => {
   const [todoName, setTodoName] = useState("");
-  const [todo, settodo] = useState([]);
+  const [todo, setTodo] = useState([]);
 
   function getTodoValue() {
-    settodo([...todo, todoName?.trim()]);
+    if (!todoName?.trim()) return;
+    setTodo([...todo, todoName.trim()]);
+    setTodoName(""); // Clear Input field
     return;
   }
 
@@ -18,12 +20,12 @@ const Input = () => {
   return (
     <div className="flex flex-col w-6/12">
       <div className="mt-10 flex justify-center">
-        {" "}
         <input
           onChange={handleEvent}
           className="text-black bg-white w-80 px-4 py-2 rounded-l-2xl focus:outline-none"
           name="enter-todo"
           type="text"
+          value={todoName}
           placeholder="Input Tasks..."
         />
         <button
@@ -34,7 +36,7 @@ const Input = () => {
         </button>
       </div>
 
-      <Todo todo={todo} />
+      <Todo todo={todo} setTodo={setTodo} />
     </div>
   );
 };
