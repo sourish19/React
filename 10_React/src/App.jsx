@@ -20,7 +20,6 @@ export const App = () => {
       <div className="flex justify-center items-center min-h-screen relative z-10">
         <div className="w-[400px] h-[500px] rounded-3xl bg-gradient-to-bl from-[#0f172a] via-[#1e1a78] to-[#0f172a] font-['Roboto'] ">
           <Input />
-          <Weather />
         </div>
       </div>
     </div>
