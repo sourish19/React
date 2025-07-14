@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const Accordian = () => {
+const Accordian = ({ title, content }) => {
   const [isActive, setIsActive] = useState(false);
 
   const handlAccordian = () => {
@@ -8,25 +8,23 @@ const Accordian = () => {
   };
   return (
     <>
-      <div className="w-[90%] bg-amber-950 mt-5">
-        <div className="text-right p-3">
+      <div className="w-[90%] bg-amber-950 mt-2 mb-3">
+        <div className="flex justify-between p-5">
           {" "}
+          <div>{title}</div>
           <button
             onClick={handlAccordian}
             className="bg-gray-950 text-neutral-50 px-3 py-2 rounded-2xl cursor-pointer active:scale-95"
           >
-            +
+            {isActive ? "-" : "+"}
           </button>
         </div>
         <div
           className={`${
-            isActive ? "h-20" : "h-0"
-          } overflow-hidden transition-all duration-300`}
+            isActive ? "h-30" : "h-0"
+          } overflow-hidden transition-all duration-300 px-2`}
         >
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi ipsam
-          incidunt, quidem esse quam voluptas omnis consequuntur, earum quisquam
-          distinctio placeat, animi ad quas voluptatem nobis consequatur
-          deserunt saepe facere!
+          {content}
         </div>
       </div>
     </>
