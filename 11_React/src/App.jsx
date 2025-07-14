@@ -1,6 +1,8 @@
+import { useState } from "react";
 import Accordian from "../components/Accordian";
 
 const App = () => {
+  const [openIndex, setOpenIndex] = useState(-1);
   const accordionData = [
     {
       title: "Section 1",
@@ -37,11 +39,22 @@ const App = () => {
       dolor ut sequi minus iste? Quas?`,
     },
   ];
+  const handleAccordianClick = (index) => {
+    setOpenIndex(index === openIndex ? -1 : index);
+  };
   return (
     <div className="bg-gray-950 min-h-screen flex justify-center pt-10 pb-5">
       <div className="text-white w-[50%] bg-amber-100 flex flex-col items-center ">
-        {accordionData.map((e) => {
-          return <Accordian title={e.title} content={e.content} />;
+        {accordionData.map((e, index) => {
+          return (
+            <Accordian
+              title={e.title}
+              content={e.content}
+              index={index}
+              openIndex={openIndex}
+              onAccordionClick={handleAccordianClick}
+            />
+          );
         })}
       </div>
     </div>
