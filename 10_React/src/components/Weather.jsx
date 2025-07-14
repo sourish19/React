@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import fetchData from "../api.js";
+import Error from "./Error.jsx";
 
 const Weather = ({ search = "London" }) => {
   const finalSearch =
@@ -8,19 +9,19 @@ const Weather = ({ search = "London" }) => {
   const [windSpeed, setwindSpeed] = useState("");
   const [humidity, setHumidity] = useState("");
   const [weatherCond, setWeatherCond] = useState("");
-  const [err, setErr] = useState(null);
+  const [err, setErr] = useState(false);
 
   function categorizeWeather() {
-    const condition = weatherCond.toLowerCase();
+    const condition = weatherCond?.toLowerCase();
 
     if (
       ["light snow", "blowing snow", "patchy snow possible", "snow"].some((w) =>
-        condition.includes(w)
+        condition?.includes(w)
       )
     )
       return "snow";
 
-    if (["light drizzle", "patchy drizzle"].some((w) => condition.includes(w)))
+    if (["light drizzle", "patchy drizzle"].some((w) => condition?.includes(w)))
       return "drizzle";
 
     if (
@@ -29,15 +30,15 @@ const Weather = ({ search = "London" }) => {
         "patchy rain possible",
         "moderate rain",
         "heavy rain",
-      ].some((w) => condition.includes(w))
+      ].some((w) => condition?.includes(w))
     )
       return "rain";
 
-    if (condition.includes("clear", "sunny")) return "clear";
+    if (condition?.includes("clear", "sunny")) return "clear";
 
     if (
       ["partly cloudy", "cloudy", "overcast", "mist"].some((w) =>
-        condition.includes(w)
+        condition?.includes(w)
       )
     )
       return "cloud";
@@ -45,25 +46,25 @@ const Weather = ({ search = "London" }) => {
     return "unknown";
   }
 
-  const getApiData = () => {
+  const getApiData = async () => {
     try {
-      fetchData(finalSearch).then((data) => {
-        setTemp(data?.temperature);
-        setwindSpeed(data?.wind_speed);
-        setHumidity(data?.humidity);
-        setWeatherCond(data?.weatherCondition);
-      });
+      const data = await fetchData(finalSearch);
+      setTemp(data?.temperature);
+      setwindSpeed(data?.wind_speed);
+      setHumidity(data?.humidity);
+      setWeatherCond(data?.weatherCondition);
     } catch (error) {
-      setErr(error);
+      console.log("Hiiii error");
+      console.log("err", err);
+      setErr(!err);
     }
-    return;
   };
 
   useEffect(() => {
     getApiData();
   }, [search]);
 
-  return (
+  return !err ? (
     <div className="flex flex-col justify-center items-center">
       <div>
         <img
@@ -76,7 +77,7 @@ const Weather = ({ search = "London" }) => {
         <div className="text-5xl text-white">{temp}°c</div>
         <div className="text-4xl text-white mt-3 ">{finalSearch}</div>
       </div>
-      <div className="flex justify-around items-center w-full mt-15 ">
+      <div className="flex justify-around items-center w-full mt-15 gap-15 ">
         <div className="flex gap-2">
           <img src="../../Public/humidity.png" alt="" className="h-5 mt-2" />
           <div className="flex flex-col">
@@ -93,6 +94,8 @@ const Weather = ({ search = "London" }) => {
         </div>
       </div>
     </div>
+  ) : (
+    <Error />
   );
 };
 

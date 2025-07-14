@@ -17,7 +17,7 @@ const Input = () => {
   };
 
   return (
-    <div>
+    <div className="flex flex-col h-full justify-center items-center">
       <div className="flex justify-center items-center p-4 gap-5">
         <input
           type="text"
@@ -26,7 +26,7 @@ const Input = () => {
           }}
           value={tempVal}
           placeholder="Location..."
-          className="w-6/12 bg-white py-2 pl-8 rounded-4xl focus:outline-none"
+          className="w-9/12 bg-white py-2 pl-8 rounded-4xl focus:outline-none"
         />
         <div>
           <button

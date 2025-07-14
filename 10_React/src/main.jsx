@@ -4,9 +4,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import { App } from "./App";
 
 const Main = () => (
-  <StrictMode>
     <App />
-  </StrictMode>
 );
 
 const container = document.getElementById("root");

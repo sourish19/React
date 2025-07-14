@@ -4,8 +4,10 @@ const fetchData = async (location) => {
     const response = await fetch(
       `http://api.weatherapi.com/v1/current.json?key=${api}&q=${location}&aqi=no`
     );
+    if (response.status == 400) {
+      throw new Error("Invalid Location");
+    }
     const data = await response.json();
-    console.log("Condition API-", data.current.condition.text);
 
     return {
       temperature: data.current.temp_c,
@@ -14,8 +16,7 @@ const fetchData = async (location) => {
       weatherCondition: data.current.condition.text,
     };
   } catch (error) {
-    console.error(error);
-    return { err: "something went wrong" };
+    throw new Error(error.msg);
   }
 };
 
