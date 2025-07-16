@@ -1,83 +1,115 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import crossImg from "../assets/cross.png";
 import circleImg from "../assets/circle.png";
 
-const data = new Array(9).fill(null);
 const TicTacToe = () => {
+  const [data, setData] = useState(Array(9).fill(null));
   const [isCross, setIsCross] = useState(true);
 
+  useEffect(() => {
+    checkWinner();
+  }, [isCross]);
+
   const checkWinner = () => {
-    console.log(data[0] == data[1]);
-    if (data[0] == data[1] && data[0] == data[2] && data[1] == data[2]) {
+    const draw = data.includes(null);
+    if (!draw) {
+      console.log("Draw");
+    } else if (
+      data[0] === data[1] &&
+      data[0] === data[2] &&
+      data[1] === data[2] &&
+      data[0] != null
+    ) {
       console.log(`${data[0]} is winner`);
-    } else if (data[3] == data[4] && data[4] == data[5] && data[3] == data[5]) {
+    } else if (
+      data[3] === data[4] &&
+      data[4] === data[5] &&
+      data[3] === data[5] &&
+      data[3] != null
+    ) {
       console.log(`${data[3]} is winner`);
+    } else if (
+      data[6] === data[7] &&
+      data[7] === data[8] &&
+      data[6] === data[8] &&
+      data[6] != null
+    ) {
+      console.log(`${data[6]} is winner`);
+    } else if (
+      data[0] === data[3] &&
+      data[3] === data[6] &&
+      data[0] === data[6] &&
+      data[0] != null
+    ) {
+      console.log(`${data[0]} is winner`);
+    } else if (
+      data[1] === data[4] &&
+      data[4] === data[7] &&
+      data[1] === data[7] &&
+      data[1] != null
+    ) {
+      console.log(`${data[1]} is winner`);
+    } else if (
+      data[2] === data[5] &&
+      data[5] === data[8] &&
+      data[2] === data[8] &&
+      data[2] != null
+    ) {
+      console.log(`${data[2]} is winner`);
+    } else if (
+      data[0] === data[4] &&
+      data[4] === data[8] &&
+      data[0] === data[8] &&
+      data[0] != null
+    ) {
+      console.log(`${data[0]} is winner`);
+    } else if (
+      data[2] === data[4] &&
+      data[4] === data[6] &&
+      data[2] === data[6] &&
+      data[2] != null
+    ) {
+      console.log(`${data[2]} is winner`);
     } else {
-      console.log("Welcome");
+      return;
     }
   };
 
-  const handleClick = (ele) => {
-    if (isCross) {
-      ele.innerHTML = `<div class="h-15" ><img src="${crossImg}" alt="" class="h-full"/></div> `;
-      data[ele.id] = "x";
-    } else {
-      ele.innerHTML = `<div class="h-15" ><img src="${circleImg}" alt="" class="h-full"/></div> `;
-      data[ele.id] = "o";
-    }
-    console.log(data);
+  const updateData = (id, val) => {
+    setData((prev) => {
+      const newData = [...prev];
+      newData[id] = val;
+      return newData;
+    });
+  };
 
+  const handleClick = (id) => {
+    if (data[id] !== null) return;
+    isCross ? updateData(id, "x") : updateData(id, "o");
     setIsCross(!isCross);
-    checkWinner();
   };
 
   return (
     <div className="grid grid-cols-3 gap-2 w-[35%] h-[75%]">
-      <div
-        id="0"
-        onClick={(e) => handleClick(e.currentTarget)}
-        className="h-40 flex items-center justify-center border bg-neutral-400 rounded-sm cursor-pointer active:scale-95 transition-transform duration-400 transform"
-      ></div>
-      <div
-        id="1"
-        onClick={(e) => handleClick(e.currentTarget)}
-        className="h-40 flex items-center justify-center border bg-neutral-400 rounded-sm cursor-pointer active:scale-95 transition-transform duration-400 transform"
-      ></div>
-      <div
-        id="2"
-        onClick={(e) => handleClick(e.currentTarget)}
-        className="h-40 flex items-center justify-center border bg-neutral-400 rounded-sm cursor-pointer active:scale-95 transition-transform duration-400 transform"
-      ></div>
-      <div
-        id="3"
-        onClick={(e) => handleClick(e.currentTarget)}
-        className="h-40 flex items-center justify-center border bg-neutral-400 rounded-sm cursor-pointer active:scale-95 transition-transform duration-400 transform"
-      ></div>
-      <div
-        id="4"
-        onClick={(e) => handleClick(e.currentTarget)}
-        className="h-40 flex items-center justify-center border bg-neutral-400 rounded-sm cursor-pointer active:scale-95 transition-transform duration-400 transform"
-      ></div>
-      <div
-        id="5"
-        onClick={(e) => handleClick(e.currentTarget)}
-        className="h-40 flex items-center justify-center border bg-neutral-400 rounded-sm cursor-pointer active:scale-95 transition-transform duration-400 transform"
-      ></div>
-      <div
-        id="6"
-        onClick={(e) => handleClick(e.currentTarget)}
-        className="h-40 flex items-center justify-center border bg-neutral-400 rounded-sm cursor-pointer active:scale-95 transition-transform duration-400 transform"
-      ></div>
-      <div
-        id="7"
-        onClick={(e) => handleClick(e.currentTarget)}
-        className="h-40 flex items-center justify-center border bg-neutral-400 rounded-sm cursor-pointer active:scale-95 transition-transform duration-400 transform"
-      ></div>
-      <div
-        id="8"
-        onClick={(e) => handleClick(e.currentTarget)}
-        className="h-40 flex items-center justify-center border bg-neutral-400 rounded-sm cursor-pointer active:scale-95 transition-transform duration-400 transform"
-      ></div>
+      {data.map((ele, id) => (
+        <div
+          key={id}
+          id={id}
+          onClick={(e) => handleClick(id)}
+          className="h-40 flex items-center justify-center border bg-neutral-400 rounded-sm cursor-pointer active:scale-95 transition-transform duration-400 transform"
+        >
+          {(data[id] === "x" && (
+            <div className="h-15">
+              <img src={crossImg} alt="" className="h-full" />
+            </div>
+          )) ||
+            (data[id] === "o" && (
+              <div className="h-15">
+                <img src={circleImg} alt="" className="h-full" />
+              </div>
+            ))}
+        </div>
+      ))}
     </div>
   );
 };
