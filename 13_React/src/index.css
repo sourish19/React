@@ -1,1 +1,7 @@
 @import "tailwindcss";
+@import "@fontsource/raleway"; /* default weight 400 */
+@import "@fontsource/raleway/600.css"; /* example of custom weight */
+
+.font-raleway {
+  font-family: 'Raleway', sans-serif;
+}
