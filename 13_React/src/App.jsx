@@ -1,4 +1,3 @@
-import { useState } from "react";
 import TicTacToe from "./components/TicTacToe";
 
 const App = () => {
