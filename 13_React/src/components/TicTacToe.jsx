@@ -5,6 +5,7 @@ import circleImg from "../assets/circle.png";
 const TicTacToe = () => {
   const [data, setData] = useState(Array(9).fill(null));
   const [isCross, setIsCross] = useState(true);
+  const [stopGame, setStopGame] = useState(false);
 
   useEffect(() => {
     checkWinner();
@@ -13,6 +14,7 @@ const TicTacToe = () => {
   const checkWinner = () => {
     const draw = data.includes(null);
     if (!draw) {
+      setStopGame(!stopGame);
       console.log("Draw");
     } else if (
       data[0] === data[1] &&
@@ -20,6 +22,7 @@ const TicTacToe = () => {
       data[1] === data[2] &&
       data[0] != null
     ) {
+      setStopGame(!stopGame);
       console.log(`${data[0]} is winner`);
     } else if (
       data[3] === data[4] &&
@@ -27,6 +30,7 @@ const TicTacToe = () => {
       data[3] === data[5] &&
       data[3] != null
     ) {
+      setStopGame(!stopGame);
       console.log(`${data[3]} is winner`);
     } else if (
       data[6] === data[7] &&
@@ -34,6 +38,7 @@ const TicTacToe = () => {
       data[6] === data[8] &&
       data[6] != null
     ) {
+      setStopGame(!stopGame);
       console.log(`${data[6]} is winner`);
     } else if (
       data[0] === data[3] &&
@@ -41,6 +46,7 @@ const TicTacToe = () => {
       data[0] === data[6] &&
       data[0] != null
     ) {
+      setStopGame(!stopGame);
       console.log(`${data[0]} is winner`);
     } else if (
       data[1] === data[4] &&
@@ -48,6 +54,7 @@ const TicTacToe = () => {
       data[1] === data[7] &&
       data[1] != null
     ) {
+      setStopGame(!stopGame);
       console.log(`${data[1]} is winner`);
     } else if (
       data[2] === data[5] &&
@@ -55,6 +62,7 @@ const TicTacToe = () => {
       data[2] === data[8] &&
       data[2] != null
     ) {
+      setStopGame(!stopGame);
       console.log(`${data[2]} is winner`);
     } else if (
       data[0] === data[4] &&
@@ -62,6 +70,7 @@ const TicTacToe = () => {
       data[0] === data[8] &&
       data[0] != null
     ) {
+      setStopGame(!stopGame);
       console.log(`${data[0]} is winner`);
     } else if (
       data[2] === data[4] &&
@@ -69,6 +78,7 @@ const TicTacToe = () => {
       data[2] === data[6] &&
       data[2] != null
     ) {
+      setStopGame(!stopGame);
       console.log(`${data[2]} is winner`);
     } else {
       return;
@@ -95,7 +105,7 @@ const TicTacToe = () => {
         <div
           key={id}
           id={id}
-          onClick={(e) => handleClick(id)}
+          onClick={(e) => (stopGame ? e.preventDefault() : handleClick(id))}
           className="h-40 flex items-center justify-center border bg-neutral-400 rounded-sm cursor-pointer active:scale-95 transition-transform duration-400 transform"
         >
           {(data[id] === "x" && (
