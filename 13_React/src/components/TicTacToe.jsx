@@ -9,81 +9,52 @@ const TicTacToe = () => {
   const [isCross, setIsCross] = useState(true);
   const [playerTurn, setPlayerTurn] = useState("X");
   const [winner, setWinner] = useState(null);
+  const [score, setScore] = useState({
+    X: 0,
+    O: 0,
+    draw: 0,
+  });
   const [stopGame, setStopGame] = useState(false);
+  const winningCombos = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+  ];
 
   useEffect(() => {
     checkWinner();
-  }, [isCross]);
+  }, [data]);
 
   const checkWinner = () => {
+    winningCombos.forEach((ele) => {
+      if (
+        data[ele[0]] === data[ele[1]] &&
+        data[ele[0]] === data[ele[2]] &&
+        data[ele[1]] === data[ele[2]] &&
+        data[ele[0]] !== null
+      ) {
+        setStopGame(!stopGame);
+        setWinner(data[ele[0]]);
+        setScore((prev) => ({
+          ...prev,
+          [data[ele[0]]]: prev[data[ele[0]]] + 1,
+        }));
+      }
+    });
+
     const draw = data.includes(null);
     if (!draw) {
       setStopGame(!stopGame);
       setWinner("Draw");
-    } else if (
-      data[0] === data[1] &&
-      data[0] === data[2] &&
-      data[1] === data[2] &&
-      data[0] != null
-    ) {
-      setStopGame(!stopGame);
-      setWinner(data[0]);
-    } else if (
-      data[3] === data[4] &&
-      data[4] === data[5] &&
-      data[3] === data[5] &&
-      data[3] != null
-    ) {
-      setStopGame(!stopGame);
-      setWinner(data[3]);
-    } else if (
-      data[6] === data[7] &&
-      data[7] === data[8] &&
-      data[6] === data[8] &&
-      data[6] != null
-    ) {
-      setStopGame(!stopGame);
-      setWinner(data[6]);
-    } else if (
-      data[0] === data[3] &&
-      data[3] === data[6] &&
-      data[0] === data[6] &&
-      data[0] != null
-    ) {
-      setStopGame(!stopGame);
-      setWinner(data[0]);
-    } else if (
-      data[1] === data[4] &&
-      data[4] === data[7] &&
-      data[1] === data[7] &&
-      data[1] != null
-    ) {
-      setStopGame(!stopGame);
-      setWinner(data[1]);
-    } else if (
-      data[2] === data[5] &&
-      data[5] === data[8] &&
-      data[2] === data[8] &&
-      data[2] != null
-    ) {
-      setStopGame(!stopGame);
-      setWinner(data[2]);
-    } else if (
-      data[0] === data[4] &&
-      data[4] === data[8] &&
-      data[0] === data[8] &&
-      data[0] != null
-    ) {
-      setStopGame(!stopGame);
-      setWinner(data[0]);
-    } else if (
-      data[2] === data[4] &&
-      data[4] === data[6] &&
-      data[2] === data[6] &&
-      data[2] != null
-    ) {
-      setStopGame(!stopGame);
-      setWinner(data[2]);
+      setScore((prev) => ({
+        ...prev,
+        draw: prev.draw + 1,
+      }));
     } else {
       return;
     }
@@ -112,7 +83,7 @@ const TicTacToe = () => {
     <>
       <div className="mt-20 flex flex-col gap-10 w-100">
         <PlayerTurn turn={playerTurn} winner={winner} />
-        <ScoreBoard />
+        <ScoreBoard score={score} />
         {stopGame ? (
           <button
             onClick={startGame}
