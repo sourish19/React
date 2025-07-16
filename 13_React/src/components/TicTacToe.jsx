@@ -68,7 +68,7 @@ const TicTacToe = () => {
     });
   };
 
-  const handleClick = (id) => {
+  const handleClick = (id) => { 
     if (data[id] !== null) return;
     isCross ? updateData(id, "X") : updateData(id, "O");
     playerTurn === "X" ? setPlayerTurn("O") : setPlayerTurn("X");
@@ -77,6 +77,10 @@ const TicTacToe = () => {
 
   const startGame = () => {
     setStopGame(!startGame);
+    setData(Array(9).fill(null));
+    setIsCross(!isCross);
+    setPlayerTurn("X");
+    setWinner(null);
   };
 
   return (
