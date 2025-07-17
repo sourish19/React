@@ -31,32 +31,36 @@ const TicTacToe = () => {
   }, [data]);
 
   const checkWinner = () => {
-    winningCombos.forEach((ele) => {
+    let winflag = false;
+    for (let combo of winningCombos) {
       if (
-        data[ele[0]] === data[ele[1]] &&
-        data[ele[0]] === data[ele[2]] &&
-        data[ele[1]] === data[ele[2]] &&
-        data[ele[0]] !== null
+        data[combo[0]] === data[combo[1]] &&
+        data[combo[0]] === data[combo[2]] &&
+        data[combo[0]] !== null
       ) {
         setStopGame(!stopGame);
-        setWinner(data[ele[0]]);
+        setWinner(data[combo[0]]);
         setScore((prev) => ({
           ...prev,
-          [data[ele[0]]]: prev[data[ele[0]]] + 1,
+          [data[combo[0]]]: prev[data[combo[0]]] + 1,
         }));
+        winflag = true;
+        break;
       }
-    });
+    }
 
-    const draw = data.includes(null);
-    if (!draw) {
-      setStopGame(!stopGame);
-      setWinner("Draw");
-      setScore((prev) => ({
-        ...prev,
-        draw: prev.draw + 1,
-      }));
-    } else {
-      return;
+    if (!winflag) {
+      const draw = data.includes(null);
+      if (!draw) {
+        setStopGame(!stopGame);
+        setWinner("Draw");
+        setScore((prev) => ({
+          ...prev,
+          draw: prev.draw + 1,
+        }));
+      } else {
+        return;
+      }
     }
   };
 
@@ -68,7 +72,7 @@ const TicTacToe = () => {
     });
   };
 
-  const handleClick = (id) => { 
+  const handleClick = (id) => {
     if (data[id] !== null) return;
     isCross ? updateData(id, "X") : updateData(id, "O");
     playerTurn === "X" ? setPlayerTurn("O") : setPlayerTurn("X");
@@ -78,7 +82,7 @@ const TicTacToe = () => {
   const startGame = () => {
     setStopGame(!startGame);
     setData(Array(9).fill(null));
-    setIsCross(!isCross);
+    setIsCross(true);
     setPlayerTurn("X");
     setWinner(null);
   };
