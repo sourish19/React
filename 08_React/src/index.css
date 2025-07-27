@@ -5,7 +5,7 @@
 }
 
 .main-container {
-  @apply flex flex-col items-center pt-10 h-screen bg-gray-950;
+  @apply flex flex-col items-center pt-10 h-screen bg-neutral-50;
 }
 
 .todo-heading {

@@ -1,5 +1,4 @@
 const Todo = ({ todo, setTodo }) => {
-  // To fix the console issue use useEffect
   const deleteTodo = (propIndex) => {
     setTodo(todo.filter((e, index) => index !== propIndex));
   };
