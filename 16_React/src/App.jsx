@@ -1,6 +1,9 @@
+import Navbar from "./components/Navbar";
+
 export const App = () => {
   return (
-    <div className='bg-amber-900'>App</div>
-  )
-}
- 
+    <div className="">
+      <Navbar />
+    </div>
+  );
+};
