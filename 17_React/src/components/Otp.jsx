@@ -1,8 +1,9 @@
 import { useRef, useState } from "react";
 
-const OtpInput = ({ handleOtpChange, reference, handleKeyDown }) => {
+const OtpInput = ({ key, handleOtpChange, reference, handleKeyDown }) => {
   return (
     <input
+      key={key}
       ref={reference}
       onChange={handleOtpChange}
       onKeyDown={handleKeyDown}
@@ -14,7 +15,6 @@ const OtpInput = ({ handleOtpChange, reference, handleKeyDown }) => {
 };
 const Otp = ({ number = 5 }) => {
   const refArr = useRef(Array(number).fill(""));
-
   const [inputDone, setInputDone] = useState(0);
 
   const handleKeyDown = (e) => {
@@ -55,7 +55,7 @@ const Otp = ({ number = 5 }) => {
   };
 
   return (
-    <div className="flex gap-2 w-9/12 mx-auto mt-25">
+    <div className="flex gap-2 w-9/12 mx-auto mt-5">
       {refArr.current.map((item, index) => {
         return (
           <OtpInput
