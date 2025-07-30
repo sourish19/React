@@ -4,21 +4,17 @@ import Button from "../components/Button";
 import Input from "../components/Input";
 import { InputContextProvider } from "../context/context";
 
-const VerifyAge = () => {
+const VerifyEmail = () => {
   return (
     <div className="h-screen bg-[#0A2A4A] flex flex-col">
       <Logo />
-      <Heading heading={"Verify Your Age"} />
+      <Heading heading={"Let's Get Started"} />
       <InputContextProvider>
-        <Input
-          inputText={
-            "Please confirm your birth year. This data will be stored."
-          }
-        />
+        <Input />
         <Button />
       </InputContextProvider>
     </div>
   );
 };
 
-export default VerifyAge;
+export default VerifyEmail;
