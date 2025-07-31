@@ -45,10 +45,7 @@ const Navbar = () => {
         </div>
       </div>
       <div className="relative w-full">
-        <div
-          className="h-px w-full absolute inset-y-0 bg-gradient-to-r from-neutral-300/10 via-neutral-400 to-neutral-300/10
- pointer-events-none z-0"
-        ></div>
+        <div className="h-px w-full absolute inset-y-0 bg-gradient-to-r from-neutral-300/10 via-neutral-400 to-neutral-300/10 pointer-events-none z-0"></div>
       </div>
     </>
   );
