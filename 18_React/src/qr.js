@@ -1,8 +1,10 @@
 import QRCode from 'qrcode';
 
-const generateQRCode = async (url = 'hello') => {
+const generateQRCode = async (url) => {
   try {
-    console.log(await QRCode.toDataURL(url));
+    const qr = await QRCode.toDataURL(url);
+    console.log(qr);
+    return qr;
   } catch (err) {
     console.error(err);
   }
