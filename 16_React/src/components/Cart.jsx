@@ -1,27 +1,5 @@
 import { Plus, Minus } from "lucide-react";
-
-const SmallScreenCart = ({ item, price }) => {
-  return (
-    <div className="flex flex-col px-3 py-4 gap-2 w-9/12 mx-auto bg-stone-200 rounded-2xl h-80">
-      <img className="rounded-xl h-30 object-contain" src={item} alt="" />
-      <div className="flex flex-col mt-5 gap-5 justify-between">
-        <span className="text-lg font-bold text-gray-700">Price: {price}</span>
-        <div className="flex items-center gap-6">
-          <label className="text-lg font-bold text-gray-700">Quantity:</label>
-          <div className="flex items-center border border-neutral-800 rounded-md overflow-hidden">
-            <button className="px-3 py-1.5 border-r border-neutral-800 hover:bg-neutral-100">
-              <Minus />
-            </button>
-            <span className="px-4 text-sm font-medium">0</span>
-            <button className="px-3 py-1.5 border-l border-neutral-800 hover:bg-neutral-100">
-              <Plus />
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
+import { useRef, useState, forwardRef } from "react";
 
 const MediumScreenCart = () => {
   return (
@@ -42,53 +20,154 @@ const MediumScreenCart = () => {
   );
 };
 
-const MediumScreenCartItems = ({ item, price }) => {
+const SmallScreenCart = forwardRef(({
+  quantity,
+  increaseQuantity,
+  decreaseQuantity,
+  total,
+  item,
+  itemImg,
+  price,
+}, ref) => {
+  return (
+    <div className="flex flex-col px-3 py-4 gap-2 w-9/12 mx-auto bg-stone-200 rounded-2xl h-80">
+      <img className="rounded-xl h-30 object-contain" src={itemImg} alt="" />
+      <div className="flex flex-col mt-5 gap-5 justify-between">
+        <div className="text-lg font-bold text-gray-700">{item}</div>
+        <span className="text-lg font-bold text-gray-700">
+          Price: <span ref={ref}>{price}</span>
+        </span>
+        <div className="flex items-center gap-6">
+          <label className="text-lg font-bold text-gray-700">Quantity:</label>
+          <div className="flex items-center border border-neutral-800 rounded-md overflow-hidden">
+            <button onClick={decreaseQuantity} className="px-3 py-1.5 border-r border-neutral-800 hover:bg-neutral-100">
+              <Minus />
+            </button>
+            <span className="px-4 text-sm font-medium">{quantity}</span>
+            <button onClick={increaseQuantity} className="px-3 py-1.5 border-l border-neutral-800 hover:bg-neutral-100">
+              <Plus />
+            </button>
+          </div>
+          <div>Total: ${total}</div>
+        </div>
+      </div>
+    </div>
+  );
+});
+
+const MediumScreenCartItems = forwardRef(({
+  quantity,
+  increaseQuantity,
+  decreaseQuantity,
+  total,
+  item,
+  itemImg,
+  price,
+}, ref) => {
   return (
     <div className="hidden md:grid md:grid-cols-12 md:items-center border-b border-neutral-300 px-2 py-3">
       <div className="col-span-5 flex items-center gap-4">
-        <img className="h-16 w-20 object-contain rounded" src={item} alt="" />
+        <img className="h-16 w-20 object-contain rounded" src={itemImg} alt="" />
         <span className="text-md font-medium text-gray-700">{item}</span>
       </div>
       <div className="col-span-2 text-md font-semibold text-gray-700 text-center">
-        {price}
+        <span ref={ref}>{price}</span>
       </div>
       <div className="col-span-3">
-        <div className="flex items-center border  border-neutral-800 rounded-md w-fit">
-          <button className="px-3 py-1.5 border-r border-neutral-800 hover:bg-neutral-100">
+        <div className="flex items-center border border-neutral-800 rounded-md w-fit">
+          <button onClick={decreaseQuantity} className="px-3 py-1.5 border-r border-neutral-800 hover:bg-neutral-100">
             <Minus />
           </button>
-          <span className="px-4 text-sm font-medium">0</span>
-          <button className="px-3 py-1.5 border-l border-neutral-800 hover:bg-neutral-100">
+          <span className="px-4 text-sm font-medium">{quantity}</span>
+          <button onClick={increaseQuantity} className="px-3 py-1.5 border-l border-neutral-800 hover:bg-neutral-100">
             <Plus />
           </button>
         </div>
       </div>
       <div className="col-span-2 text-md font-semibold text-gray-700 text-center">
-        $0.00
+        ${total}
       </div>
     </div>
   );
-};
+});
 
 const Cart = ({
   items = [
-    { item: "keyboard.jpg", price: "$469" },
-    { item: "mouse.jpg", price: "$199" },
-    { item: "Tshirt.jpg", price: "$99" },
+    { item: "keyboard", itemImg: "keyboard.jpg", price: "$469", itemKey: "0" },
+    { item: "mouse", itemImg: "mouse.jpg", price: "$199", itemKey: "1" },
+    { item: "Tshirt", itemImg: "Tshirt.jpg", price: "$99", itemKey: "2" },
   ],
 }) => {
+  const [quantities, setQuantities] = useState(Array(items.length).fill(0));
+  const [totals, setTotals] = useState(Array(items.length).fill(0));
+  const [totalPrice, setTotalPrice] = useState(0);
+
+  const itemRefs = useRef([]);
+
+  const parsePrice = (priceStr) => parseFloat(priceStr.replace("$", "")) || 0;
+
+  const increaseQuantity = (index) => {
+    const unitPrice = parsePrice(items[index].price);
+    const newQuantities = [...quantities];
+    const newTotals = [...totals];
+
+    newQuantities[index]++;
+    newTotals[index] = newQuantities[index] * unitPrice;
+
+    setQuantities(newQuantities);
+    setTotals(newTotals);
+    setTotalPrice(newTotals.reduce((acc, val) => acc + val, 0));
+  };
+
+  const decreaseQuantity = (index) => {
+    if (quantities[index] === 0) return;
+    const unitPrice = parsePrice(items[index].price);
+    const newQuantities = [...quantities];
+    const newTotals = [...totals];
+
+    newQuantities[index]--;
+    newTotals[index] = newQuantities[index] * unitPrice;
+
+    setQuantities(newQuantities);
+    setTotals(newTotals);
+    setTotalPrice(newTotals.reduce((acc, val) => acc + val, 0));
+  };
+
   return (
     <>
       <div className="hidden md:flex md:gap-2 md:flex-col w-10/12 mx-auto mb-5">
         <MediumScreenCart />
         {items.map((e, i) => (
-          <MediumScreenCartItems key={i} item={e.item} price={e.price} />
+          <MediumScreenCartItems
+            key={e.itemKey}
+            item={e.item}
+            itemImg={e.itemImg}
+            price={e.price}
+            quantity={quantities[i]}
+            total={totals[i]}
+            increaseQuantity={() => increaseQuantity(i)}
+            decreaseQuantity={() => decreaseQuantity(i)}
+            ref={(el) => (itemRefs.current[i] = el)}
+          />
         ))}
       </div>
       <div className="flex flex-col gap-5 mb-5 md:hidden">
         {items.map((e, i) => (
-          <SmallScreenCart key={i} item={e.item} price={e.price} />
+          <SmallScreenCart
+            key={e.itemKey}
+            item={e.item}
+            itemImg={e.itemImg}
+            price={e.price}
+            quantity={quantities[i]}
+            total={totals[i]}
+            increaseQuantity={() => increaseQuantity(i)}
+            decreaseQuantity={() => decreaseQuantity(i)}
+            ref={(el) => (itemRefs.current[i] = el)}
+          />
         ))}
+      </div>
+      <div className="text-center text-xl font-bold text-gray-800 mt-4">
+        Grand Total: ${totalPrice}
       </div>
     </>
   );

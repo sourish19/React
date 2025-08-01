@@ -1,4 +1,4 @@
 # Product Cart Page in React
-## Dont know when i will be able to complete this because my college sucks 
+## Finally completed this by skipping cllg 
 
 ![Demo Animation](https://giffiles.alphacoders.com/220/220355.gif) 
