@@ -7,7 +7,7 @@ function App() {
   const arr = [1, 2, 3, 4, 5, 6];
   const shuffledArr = generateShuffledCards(arr);
   return (
-    <div className="flex h-screen flex-col items-center gap-y-20 bg-slate-950">
+    <div className="flex h-screen flex-col items-center gap-y-10 bg-slate-950">
       <Heading />
       <Memory cardNumber={12} shuffledArr={shuffledArr} />
     </div>
