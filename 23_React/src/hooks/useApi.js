@@ -1,17 +1,32 @@
+import { useEffect, useState } from "react";
 import axios from "axios";
-import { useState } from "react";
 
 const useApi = (user) => {
-  const [data, setData] = useState();
-  const url = `https://api/github.com/users/${user}`;
-  axios
-    .get(url)
-    .then((response) => {
-      console.log(response);
-    })
-    .catch((err) => {
-      console.error(err);
-    });
+  const [response, setResponse] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (!user) return;
+
+    setLoading(true);
+    setError(null);
+
+    const url = `https://api.github.com/users/${user}`;
+    axios
+      .get(url)
+      .then(({ data }) => {
+        setResponse(data);
+      })
+      .catch((err) => {
+        setError(err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [user]);
+
+  return { response, loading, error };
 };
 
 export default useApi;

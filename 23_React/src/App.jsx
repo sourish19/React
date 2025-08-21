@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AppLayout from "./layouts/AppLayout";
-import { Home, About, Contact ,User} from "./components";
+import { Home, About, Contact ,User, Github} from "./components";
 
 const App = () => {
   return (
@@ -11,6 +11,7 @@ const App = () => {
           <Route path="about" element={<About />}></Route>
           <Route path="contact" element={<Contact />}></Route>
           <Route path="user/:userId" element={<User />}></Route>
+          <Route path="github" element={<Github />}></Route>
         </Route>
       </Routes>
     </Router>
